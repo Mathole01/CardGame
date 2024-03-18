@@ -1,9 +1,12 @@
 package idatt2003;
 
 import idatt2003.data.DeckOfCards;
+import idatt2003.data.PlayingCard;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,7 +42,52 @@ public class DeckOfCardsTest {
       }
     }
 
+    @Test
+    @DisplayName("dealHand method returns the correct amount of cards.")
+    void dealHandMethodReturnsCorrectAmountOfCards() {
+      try {
+        DeckOfCards deck = new DeckOfCards();
+        assertEquals(5, deck.dealHand(5).size());
+      } catch (Exception e) {
+        fail("An exception was thrown with the message: " + e.getMessage());
+      }
+    }
 
+    @Test
+    @DisplayName("hasFlush method returns true when given a flush.")
+    void hasFlushMethodReturnsTrueOnFlush() {
+      try {
+        DeckOfCards deck = new DeckOfCards();
+        List<PlayingCard> hand = List.of(
+          new PlayingCard('H', 2),
+          new PlayingCard('H', 3),
+          new PlayingCard('H', 4),
+          new PlayingCard('H', 5),
+          new PlayingCard('H', 6)
+        );
+        assertTrue(deck.hasFlush(hand));
+      } catch (Exception e) {
+        fail("An exception was thrown with the message: " + e.getMessage());
+      }
+    }
+
+    @Test
+    @DisplayName("hasFlush method returns false when not given a flush.")
+    void hasFlushMethodReturnsFalseOnNoFlush() {
+      try {
+        DeckOfCards deck = new DeckOfCards();
+        List<PlayingCard> hand = List.of(
+                new PlayingCard('S', 2),
+                new PlayingCard('H', 3),
+                new PlayingCard('H', 4),
+                new PlayingCard('H', 5),
+                new PlayingCard('H', 6)
+        );
+        assertFalse(deck.hasFlush(hand));
+      } catch (Exception e) {
+        fail("An exception was thrown with the message: " + e.getMessage());
+      }
+    }
   }
 
   @Nested

@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class DeckOfCards {
   private final Map<String, PlayingCard> deck;
   private final char suits[] = {'H', 'D', 'C', 'S'};
+  Random random = new Random();
 
   public DeckOfCards() {
     deck = new HashMap<>();
@@ -29,6 +32,12 @@ public class DeckOfCards {
     }
   }
 
+  public void verifySize(int n) {
+    if (n < 1 || n > 52) {
+      throw new IllegalArgumentException("Parameter n must be a number between 1 to 52");
+    }
+  }
+
   public PlayingCard getDeck(char suit, int value) {
     verifyValidDeckId(suit, value);
     String cardId = suit + String.valueOf(value);
@@ -37,5 +46,21 @@ public class DeckOfCards {
 
   public int size() {
     return deck.size();
+  }
+
+  public List<PlayingCard> dealHand(int n) {
+    verifySize(n);
+
+    List<PlayingCard> hand = random.ints(n, 0, size())
+      .limit(n)
+      .mapToObj(i -> deck.get(i))
+      .collect(Collectors.toList());
+
+    return hand;
+  }
+
+  public boolean hasFlush(List <PlayingCard> hand){
+    PlayingCard firstSuit = hand.get(0);
+    return hand.stream().allMatch(atHand -> atHand.getSuit() == firstSuit.getSuit());
   }
 }
