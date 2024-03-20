@@ -66,4 +66,17 @@ public class DeckOfCards {
     PlayingCard firstSuit = hand.get(0);
     return hand.stream().allMatch(atHand -> atHand.getSuit() == firstSuit.getSuit());
   }
+
+  public int getSum(List <PlayingCard> hand){
+    return hand.stream().mapToInt(PlayingCard::getFace).sum();
+  }
+
+  public boolean hasQueenOfSpades(List <PlayingCard> hand){
+    return hand.stream().anyMatch(atHand -> atHand.getSuit() == 'S' && atHand.getFace() == 12);
+  }
+
+  public String getCardsOfHearts(List <PlayingCard> hand) {
+    return hand.stream().filter(atHand -> atHand.getSuit() == 'H')
+            .map(PlayingCard::getAsString).collect(Collectors.joining(" "));
+  }
 }
