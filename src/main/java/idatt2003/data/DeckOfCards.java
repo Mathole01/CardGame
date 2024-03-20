@@ -53,7 +53,10 @@ public class DeckOfCards {
 
     List<PlayingCard> hand = random.ints(n, 0, size())
       .limit(n)
-      .mapToObj(i -> deck.get(i))
+      .mapToObj(i -> {
+        int index = random.nextInt(deck.size());
+        return new ArrayList<>(deck.values()).get(index);
+      })
       .collect(Collectors.toList());
 
     return hand;

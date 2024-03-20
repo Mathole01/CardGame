@@ -12,7 +12,8 @@ import java.io.IOException;
 
 public class App extends Application {
   public void start(Stage stage) throws IOException {
-    Gui.generatePage(stage);
+    Gui gui = new Gui();
+    gui.generatePage(stage);
   }
 
   public static void main(String[] args) {
