@@ -28,20 +28,25 @@ public class Gui {
     this.centerController = new CenterController();
     this.checkButtonController = new CheckButtonController();
   }
+
   public void generatePage(Stage stage) {
     stage.setTitle("Card Game");
 
     //center of the screen
     BorderPane center = new BorderPane();
+    center.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,
+            new CornerRadii(10), Insets.EMPTY)));
+
     GridPane board = new GridPane();
     board.setMaxWidth(600);
+    board.setBackground(new Background(new BackgroundFill(Color.BURLYWOOD,
+            new CornerRadii(10), Insets.EMPTY)));
     board.setMaxHeight(300);
     board.setHgap(15);
     board.addColumn(5);
-    center.setCenter(board);
-
     board.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
             new javafx.scene.layout.CornerRadii(10), BorderWidths.DEFAULT)));
+    center.setCenter(board);
 
 
     //top of the screen
@@ -59,7 +64,6 @@ public class Gui {
     BorderPane bottom = new BorderPane();
     bottom.setPadding(new Insets(10, 10, 10, 10));
     bottom.setMinHeight(150);
-    Text bottomText = new Text("Actions");
 
     Button checkHand = new Button("Check hand");
     checkHand.setPadding(new Insets(60, 10, 10, 10));
@@ -79,8 +83,9 @@ public class Gui {
     GridPane infoGrid = new GridPane();
     infoGrid.setMinHeight(150);
     infoGrid.setMinWidth(450);
-    infoGrid.setHgap(10);
-    infoGrid.setVgap(10);
+    infoGrid.setPrefWidth(700);
+    infoGrid.setHgap(40);
+    infoGrid.setVgap(100);
     infoGrid.addColumn(2);
     infoGrid.addRow(2);
 
@@ -98,11 +103,15 @@ public class Gui {
       button.setOnAction(e -> {
         List <PlayingCard> hand = centerController.handleDealButtonPressedGenerateNewHand();
         updatePage(board, hand);
+
+        infoGrid.getChildren().clear();
+
       });
     }
 
     if(checkHand != null){
       checkHand.setOnAction(e -> {
+        //store info into borderpanes
         BorderPane isFlush = generateInfoString("Flush:", checkButtonController
                 .handleCheckHandButtonPressedFlush(centerController.getHand()) ? "Yes" : "No");
         BorderPane sum = generateInfoString("Sum: ", String.valueOf(checkButtonController
@@ -113,6 +122,7 @@ public class Gui {
         BorderPane hearts = generateInfoString("Hearts: ",
                 checkButtonController.handleCheckHandButtonGetHearts(centerController.getHand()));
 
+        //add info borderpanes to grid for display
         updateInfo(infoGrid, isFlush, sum, hasQueenOfSpades, hearts);
       });
     }
@@ -124,7 +134,7 @@ public class Gui {
     root.setTop(top);
 
 
-    stage.setScene(new Scene(root, 800, 600));
+    stage.setScene(new Scene(root, 1000, 800));
     stage.show();
   }
 
@@ -181,7 +191,7 @@ public class Gui {
     valueText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
     valueText.setFill(Color.BLACK);
     vbox.getChildren().add(valueText);
-    information.setRight(vbox);
+    information.setCenter(vbox);
 
     return information;
 
