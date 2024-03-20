@@ -11,6 +11,7 @@ public class DeckOfCards {
   private final Map<String, PlayingCard> deck;
   private final char suits[] = {'H', 'D', 'C', 'S'};
   Random random = new Random();
+  int handSize = 5;
 
   public DeckOfCards() {
     deck = new HashMap<>();
@@ -35,6 +36,12 @@ public class DeckOfCards {
   public void verifySize(int n) {
     if (n < 1 || n > 52) {
       throw new IllegalArgumentException("Parameter n must be a number between 1 to 52");
+    }
+  }
+
+  public void verifyValidHand(List<PlayingCard> hand, int size) {
+    if (hand.size() != size) {
+      throw new IllegalArgumentException("Given hand must be a list of 5 cards");
     }
   }
 
@@ -63,19 +70,23 @@ public class DeckOfCards {
   }
 
   public boolean hasFlush(List <PlayingCard> hand){
+    verifyValidHand(hand, handSize);
     PlayingCard firstSuit = hand.get(0);
     return hand.stream().allMatch(atHand -> atHand.getSuit() == firstSuit.getSuit());
   }
 
   public int getSum(List <PlayingCard> hand){
+    verifyValidHand(hand, handSize);
     return hand.stream().mapToInt(PlayingCard::getFace).sum();
   }
 
   public boolean hasQueenOfSpades(List <PlayingCard> hand){
+    verifyValidHand(hand, handSize);
     return hand.stream().anyMatch(atHand -> atHand.getSuit() == 'S' && atHand.getFace() == 12);
   }
 
   public String getCardsOfHearts(List <PlayingCard> hand) {
+    verifyValidHand(hand, handSize);
     return hand.stream().filter(atHand -> atHand.getSuit() == 'H')
             .map(PlayingCard::getAsString).collect(Collectors.joining(" "));
   }

@@ -88,6 +88,78 @@ public class DeckOfCardsTest {
         fail("An exception was thrown with the message: " + e.getMessage());
       }
     }
+
+    @Test
+    @DisplayName("getSum method returns the correct sum.")
+    void getSumMethodReturnsCorrectSum() {
+      try {
+        DeckOfCards deck = new DeckOfCards();
+        List<PlayingCard> hand = List.of(
+                new PlayingCard('H', 2),
+                new PlayingCard('H', 3),
+                new PlayingCard('H', 4),
+                new PlayingCard('H', 5),
+                new PlayingCard('H', 6)
+        );
+        assertEquals(20, deck.getSum(hand));
+      } catch (Exception e) {
+        fail("An exception was thrown with the message: " + e.getMessage());
+      }
+    }
+
+    @Test
+    @DisplayName("hasQueenOfSpades method returns true when given a queen of spades.")
+    void hasQueenOfSpadesMethodReturnsTrueOnQueenOfSpades() {
+      try {
+        DeckOfCards deck = new DeckOfCards();
+        List<PlayingCard> hand = List.of(
+                new PlayingCard('H', 2),
+                new PlayingCard('H', 3),
+                new PlayingCard('H', 4),
+                new PlayingCard('H', 5),
+                new PlayingCard('S', 12)
+        );
+        assertTrue(deck.hasQueenOfSpades(hand));
+      } catch (Exception e) {
+        fail("An exception was thrown with the message: " + e.getMessage());
+      }
+    }
+
+    @Test
+    @DisplayName("hasQueenOfSpades method returns false when not given a queen of spades.")
+    void hasQueenOfSpadesMethodReturnsFalseOnNoQueenOfSpades() {
+      try {
+        DeckOfCards deck = new DeckOfCards();
+        List<PlayingCard> hand = List.of(
+                new PlayingCard('H', 2),
+                new PlayingCard('H', 3),
+                new PlayingCard('H', 4),
+                new PlayingCard('H', 5),
+                new PlayingCard('H', 6)
+        );
+        assertFalse(deck.hasQueenOfSpades(hand));
+      } catch (Exception e) {
+        fail("An exception was thrown with the message: " + e.getMessage());
+      }
+    }
+
+    @Test
+    @DisplayName("getCardsOfHearts method returns the correct cards.")
+    void getCardsOfHeartsMethodReturnsCorrectCards() {
+      try {
+        DeckOfCards deck = new DeckOfCards();
+        List<PlayingCard> hand = List.of(
+                new PlayingCard('H', 2),
+                new PlayingCard('H', 3),
+                new PlayingCard('H', 4),
+                new PlayingCard('H', 5),
+                new PlayingCard('H', 6)
+        );
+        assertEquals("H2 H3 H4 H5 H6", deck.getCardsOfHearts(hand));
+      } catch (Exception e) {
+        fail("An exception was thrown with the message: " + e.getMessage());
+      }
+    }
   }
 
   @Nested
@@ -117,5 +189,102 @@ public class DeckOfCardsTest {
           assertEquals(e.getMessage(), "Parameter face must be a number between 1 to 13");
         }
       }
+
+      @Test
+      @DisplayName("verifySize throws IllegalArgumentException when given invalid size.")
+      void verifySizeThrowsExceptionOnInvalidSize() {
+        try {
+          DeckOfCards deck = new DeckOfCards();
+          deck.verifySize(53);
+          fail("An exception was not thrown");
+        } catch (Exception e) {
+          assertEquals(e.getMessage(), "Parameter n must be a number between 1 to 52");
+        }
+      }
+
+      @Test
+      @DisplayName("dealHand throws IllegalArgumentException when given invalid size.")
+      void dealHandThrowsExceptionOnInvalidSize() {
+        try {
+          DeckOfCards deck = new DeckOfCards();
+          deck.dealHand(53);
+          fail("An exception was not thrown");
+        } catch (Exception e) {
+          assertEquals(e.getMessage(), "Parameter n must be a number between 1 to 52");
+        }
+      }
+
+      @Test
+      @DisplayName("hasFlush throws IllegalArgumentException when given invalid hand.")
+      void hasFlushThrowsExceptionOnInvalidHand() {
+        try {
+          DeckOfCards deck = new DeckOfCards();
+          List<PlayingCard> hand = List.of(
+                  new PlayingCard('H', 2),
+                  new PlayingCard('H', 3),
+                  new PlayingCard('H', 4),
+                  new PlayingCard('H', 5)
+          );
+          deck.hasFlush(hand);
+          fail("An exception was not thrown");
+        } catch (Exception e) {
+          assertEquals(e.getMessage(), "Given hand must be a list of 5 cards");
+        }
+      }
+
+      @Test
+      @DisplayName("getSum throws IllegalArgumentException when given invalid hand.")
+      void getSumThrowsExceptionOnInvalidHand() {
+        try {
+          DeckOfCards deck = new DeckOfCards();
+          List<PlayingCard> hand = List.of(
+                  new PlayingCard('H', 2),
+                  new PlayingCard('H', 3),
+                  new PlayingCard('H', 4),
+                  new PlayingCard('H', 5)
+          );
+          deck.getSum(hand);
+          fail("An exception was not thrown");
+        } catch (Exception e) {
+          assertEquals(e.getMessage(), "Given hand must be a list of 5 cards");
+        }
+      }
+
+      @Test
+      @DisplayName("hasQueenOfSpades throws IllegalArgumentException when given invalid hand.")
+      void hasQueenOfSpadesThrowsExceptionOnInvalidHand() {
+        try {
+          DeckOfCards deck = new DeckOfCards();
+          List<PlayingCard> hand = List.of(
+                  new PlayingCard('H', 2),
+                  new PlayingCard('H', 3),
+                  new PlayingCard('H', 4),
+                  new PlayingCard('H', 5)
+          );
+          deck.hasQueenOfSpades(hand);
+          fail("An exception was not thrown");
+        } catch (Exception e) {
+          assertEquals(e.getMessage(), "Given hand must be a list of 5 cards");
+        }
+      }
+
+      @Test
+      @DisplayName("getCardsOfHearts throws IllegalArgumentException when given invalid hand.")
+      void getCardsOfHeartsThrowsExceptionOnInvalidHand() {
+        try {
+          DeckOfCards deck = new DeckOfCards();
+          List<PlayingCard> hand = List.of(
+                  new PlayingCard('H', 2),
+                  new PlayingCard('H', 3),
+                  new PlayingCard('H', 4),
+                  new PlayingCard('H', 5)
+          );
+          deck.getCardsOfHearts(hand);
+          fail("An exception was not thrown");
+        } catch (Exception e) {
+          assertEquals(e.getMessage(), "Given hand must be a list of 5 cards");
+        }
+      }
+
   }
 }
