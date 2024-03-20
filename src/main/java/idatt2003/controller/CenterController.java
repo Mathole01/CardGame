@@ -2,13 +2,12 @@ package idatt2003.controller;
 
 import idatt2003.data.DeckOfCards;
 import idatt2003.data.PlayingCard;
-import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
+
 
 import java.util.List;
 
 public class CenterController {
-  private DeckOfCards deck;
+  private final DeckOfCards deck;
   List<PlayingCard> hand;
   public CenterController() {
     this.deck = new DeckOfCards();

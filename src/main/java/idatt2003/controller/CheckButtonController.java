@@ -6,7 +6,7 @@ import idatt2003.data.PlayingCard;
 import java.util.List;
 
 public class CheckButtonController {
-  private DeckOfCards deck;
+  private final DeckOfCards deck;
   public CheckButtonController() {
     this.deck = new DeckOfCards();
   }
