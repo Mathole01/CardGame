@@ -9,10 +9,17 @@ import java.util.List;
 
 public class CenterController {
   private DeckOfCards deck;
+  List<PlayingCard> hand;
   public CenterController() {
     this.deck = new DeckOfCards();
   }
-  public List<PlayingCard> handleDealButtonPressed() {
-    return deck.dealHand(5);
+  public List<PlayingCard> handleDealButtonPressedGenerateNewHand() {
+    hand = deck.dealHand(5);
+    return hand;
   }
+
+  public List<PlayingCard> getHand() {
+    return hand;
+  }
+
 }

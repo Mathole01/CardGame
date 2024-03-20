@@ -1,6 +1,7 @@
 package idatt2003.view;
 
 import idatt2003.controller.CenterController;
+import idatt2003.controller.CheckButtonController;
 import idatt2003.data.PlayingCard;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -21,26 +22,14 @@ import java.util.List;
 
 public class Gui {
   CenterController centerController;
+  CheckButtonController checkButtonController;
 
   public Gui() {
     this.centerController = new CenterController();
+    this.checkButtonController = new CheckButtonController();
   }
   public void generatePage(Stage stage) {
     stage.setTitle("Card Game");
-
-    //Visuals for a card
-    StackPane card = new StackPane();
-    Rectangle rectangle = new Rectangle(100, 150);
-    rectangle.fillProperty().set(Color.WHITE);
-    rectangle.setArcHeight(30);
-    rectangle.setArcWidth(30);
-    rectangle.setStroke(Color.BLACK);
-    rectangle.setStrokeWidth(2);
-    Text textCard = new Text("test");
-    textCard.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-    textCard.setFill(Color.BLACK);
-    textCard.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-    card.getChildren().addAll(rectangle, textCard);
 
     //center of the screen
     BorderPane center = new BorderPane();
@@ -72,18 +61,59 @@ public class Gui {
     bottom.setMinHeight(150);
     Text bottomText = new Text("Actions");
 
+    Button checkHand = new Button("Check hand");
+    checkHand.setPadding(new Insets(60, 10, 10, 10));
+    bottom.setRight(checkHand);
+    checkHand.setPadding(new Insets(110, 120, 50, 100));
+
     Button button = new Button("Deal hand");
-    button.setAlignment(Pos.CENTER);
-    button.setPadding(new Insets(10, 10, 30, 10));
-    bottom.setCenter(button);
+    button.setPadding(new Insets(110, 120, 50, 100));
+    bottom.setLeft(button);
+
+    //bottom info
+    BorderPane bottomInfo = new BorderPane();
+    bottomInfo.setPadding(new Insets(10, 10, 10, 10));
+    bottomInfo.setMinHeight(150);
+    bottomInfo.setMinWidth(450);
+
+    GridPane infoGrid = new GridPane();
+    infoGrid.setMinHeight(150);
+    infoGrid.setMinWidth(450);
+    infoGrid.setHgap(10);
+    infoGrid.setVgap(10);
+    infoGrid.addColumn(2);
+    infoGrid.addRow(2);
+
+    bottomInfo.setCenter(infoGrid);
+    bottom.setCenter(bottomInfo);
+
+
+
+
 
     //Button show
 
     // Register the controller with the button
     if (button != null) {
       button.setOnAction(e -> {
-        List <PlayingCard> hand = centerController.handleDealButtonPressed();
+        List <PlayingCard> hand = centerController.handleDealButtonPressedGenerateNewHand();
         updatePage(board, hand);
+      });
+    }
+
+    if(checkHand != null){
+      checkHand.setOnAction(e -> {
+        BorderPane isFlush = generateInfoString("Flush:", checkButtonController
+                .handleCheckHandButtonPressedFlush(centerController.getHand()) ? "Yes" : "No");
+        BorderPane sum = generateInfoString("Sum: ", String.valueOf(checkButtonController
+                .handleCheckHandButtonPressedGetSum(centerController.getHand())));
+        BorderPane hasQueenOfSpades = generateInfoString("Queen of Spades: ",
+                checkButtonController.handleCheckHandButtonPressedQueenOfSpades(centerController.getHand())
+                        ? "Yes" : "No");
+        BorderPane hearts = generateInfoString("Hearts: ",
+                checkButtonController.handleCheckHandButtonGetHearts(centerController.getHand()));
+
+        updateInfo(infoGrid, isFlush, sum, hasQueenOfSpades, hearts);
       });
     }
 
@@ -108,7 +138,17 @@ public class Gui {
 
   }
 
-  public static StackPane generateCard( String text) {
+  public static void updateInfo(GridPane gridPane, BorderPane info1,
+                                BorderPane info2, BorderPane info3, BorderPane info4) {
+    gridPane.getChildren().clear();
+    gridPane.add(info1, 0, 0);
+    gridPane.add(info2, 1, 0);
+    gridPane.add(info3, 0, 1);
+    gridPane.add(info4, 1, 1);
+
+  }
+
+  public static StackPane generateCard(String text) {
     StackPane card1 = new StackPane();
     Rectangle rectangle = new Rectangle(100, 150);
     rectangle.fillProperty().set(Color.WHITE);
@@ -123,5 +163,27 @@ public class Gui {
     card1.getChildren().addAll(rectangle, textCard);
 
     return card1;
+  }
+
+  public BorderPane generateInfoString(String description, String value) {
+    if (value == null) {
+      value = "None";
+    }
+    BorderPane information = new BorderPane();
+    Text text = new Text(description);
+    text.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+    text.setFill(Color.BLACK);
+    information.setLeft(text);
+
+    VBox vbox = new VBox();
+    vbox.setAlignment(Pos.CENTER);
+    Text valueText = new Text(value);
+    valueText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+    valueText.setFill(Color.BLACK);
+    vbox.getChildren().add(valueText);
+    information.setRight(vbox);
+
+    return information;
+
   }
 }
