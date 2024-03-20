@@ -66,25 +66,26 @@ public class Gui {
     bottom.setMinHeight(150);
 
     Button checkHand = new Button("Check hand");
-    checkHand.setPadding(new Insets(60, 10, 10, 10));
+    checkHand.setFont(Font.font("Arial", FontWeight.MEDIUM, 40));
     bottom.setRight(checkHand);
-    checkHand.setPadding(new Insets(110, 120, 50, 100));
+    checkHand.setPadding(new Insets(90, 80, 50, 100));
 
     Button button = new Button("Deal hand");
-    button.setPadding(new Insets(110, 120, 50, 100));
+    button.setFont(Font.font("Arial", FontWeight.MEDIUM, 40));
+    button.setPadding(new Insets(90, 80, 50, 100));
     bottom.setLeft(button);
 
     //bottom info
     BorderPane bottomInfo = new BorderPane();
-    bottomInfo.setPadding(new Insets(10, 10, 10, 10));
+    bottomInfo.setPadding(new Insets(10, 30, 10, 50));
     bottomInfo.setMinHeight(150);
-    bottomInfo.setMinWidth(450);
+    bottomInfo.setMinWidth(500);
 
     GridPane infoGrid = new GridPane();
     infoGrid.setMinHeight(150);
     infoGrid.setMinWidth(450);
     infoGrid.setPrefWidth(700);
-    infoGrid.setHgap(40);
+    infoGrid.setHgap(100);
     infoGrid.setVgap(100);
     infoGrid.addColumn(2);
     infoGrid.addRow(2);
@@ -134,7 +135,7 @@ public class Gui {
     root.setTop(top);
 
 
-    stage.setScene(new Scene(root, 1000, 800));
+    stage.setScene(new Scene(root, 1300, 800));
     stage.show();
   }
 
@@ -180,8 +181,9 @@ public class Gui {
       value = "None";
     }
     BorderPane information = new BorderPane();
+    information.setMinWidth(100);
     Text text = new Text(description);
-    text.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+    text.setFont(Font.font("Arial", FontWeight.NORMAL, 20));
     text.setFill(Color.BLACK);
     information.setLeft(text);
 
